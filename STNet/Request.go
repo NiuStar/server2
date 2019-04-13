@@ -13,10 +13,13 @@ import (
 	"strings"
 	json2 "encoding/json"
 	. "github.com/NiuStar/xsql3/Type"
+	"github.com/NiuStar/server2/markdown"
 	//"github.com/NiuStar/utils"
 	"runtime"
 
 )
+
+var apis = markdown.APIMD{}
 
 const IParameterName  = "IParameter"
 const HandlerName  = "Handler"
@@ -89,6 +92,10 @@ type reqAndResponse struct {
 
 var routers = make(map[string]*reqAndResponse)
 
+func RegisterOver() {
+	apis.Write()
+}
+
 //注册路由，根据路由来设置对应的接收参数和返回值
 func Register(op string,request IHandler) {
 
@@ -97,6 +104,10 @@ func Register(op string,request IHandler) {
 
 //注册路由，根据路由来设置对应的接收参数和返回值
 func RegisterFunc(op string,request IHandler,method func() interface{}) {
+
+	//fmt.Println("reflect.TypeOf(request).Name():",reflect.TypeOf(request).Name())
+
+	apis.Add(method)
 
 	fn := runtime.FuncForPC(reflect.ValueOf(method).Pointer()).Name()
 

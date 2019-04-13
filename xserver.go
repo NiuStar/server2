@@ -82,6 +82,9 @@ func (s *XServer) DownloadFileDelegate(call func(string, string, string, string)
 
 func (this *XServer) RunServer() {
 
+
+	STNet.RegisterOver()
+
 	if Basic.GetServerConfig().LogConfig != nil {
 		log.SetSaveDays(int(Basic.GetServerConfig().LogConfig.Log_days))
 	}
